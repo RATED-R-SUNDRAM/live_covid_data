@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESULTS</title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<style>
+    #lex {
+        color: pink;
+        background-color: papayawhip;
+    }
+    
+    #pex {
+        color: green;
+        background-color: honeydew;
+    }
+</style>
+
+<body>
+    <div id="lex">
+        <h1><b>THE TOTAL CASES <b><u>TODAY</b></u>
+            </b>
+        </h1>
+        <h1 id="total case">TOTAL CASES TODAY===
+            <%=totalt%>
+        </h1>
+        <h1 id="recovered case">RECOVERED TODAY===
+            <%=activet%>
+        </h1>
+        <h1 id="death case">DEATHS TODAY===
+            <%=deathst%>
+        </h1>
+
+        <hr>
+    </div>
+
+    <div id="pex">
+        <h1><b>THE TOTAL CASES BECOME</b></h1>
+        <h1 id="total case">TOTAL CASES===>
+            <%=total%>
+        </h1>
+        <h1 id="active case">ACTIVE CASES===>
+            <%=active%>
+        </h1>
+        <h1 id="recovered case">RECOVERED CASES===>
+            <%=recovered%>
+        </h1>
+        <h1 id="death case">TOTAL DEATHS T===>
+            <%=deaths%>
+        </h1>
+
+    </div>
+</body>
+
+</html>

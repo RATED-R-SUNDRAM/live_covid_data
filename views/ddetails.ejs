@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>jQuery UI Autocomplete functionality</title>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<body>
+    <div class="container">
+        <h1><b>COVID DATA DISTRICT WISE<b></h1>
+        <h2>ENTER THE CORRECT CREDENTIALS</h2>
+        <form class="form" method="post" action="/daal">
+          
+          <fieldset class="form-fieldset ui-input __first">
+            <input type="text" id="state" name="state"  />
+            <label for="state">
+              <span>ENTER THE STATE</span>
+            </label>
+          </fieldset>
+          
+          <fieldset class="form-fieldset ui-input __second">
+            <input type="text" id="dist" name="dist" />
+            <label for="dist">
+              <span>ENTER THE DISTRICT NAME</span>
+            </label>
+          </fieldset>
+          
+          
+          
+          
+          
+          <div class="form-footer">
+            <button class="btn" value="submit">SUBMIT</button>
+          </div>
+        </form>
+      </div>
+</body>
+<style>
+    body {
+  background-color: #363E4A;
+  font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: "Texta", "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-align: center;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.container {
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 20px 16px 40px 16px;
+  transform: translateZ(0);
+  text-align: center;
+}
+
+.form-footer {
+  margin-top: 2em;
+}
+
+.ui-input {
+  position: relative;
+  padding: 0;
+  border: 0;
+}
+
+.ui-input input {
+  font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border: 0;
+  background: none;
+  padding: 16px 0 16px 0;
+  font-size: 24px;
+  outline: 0;
+  width: 100%;
+  tap-highlight-color: rgba(0, 0, 0, 0);
+  touch-callout: none;
+}
+
+.ui-input input + label {
+  position: relative;
+  display: block;
+  padding: 8px 0 8px 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: .0875em;
+  font-weight: 500;
+  text-align: left;
+}
+.ui-input input + label::before, .ui-input input + label::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 1px;
+}
+.ui-input input + label::before {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.ui-input input + label::after {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  background-color: #6EB1FF;
+  height: 2px;
+}
+.ui-input input + label span {
+  position: relative;
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.ui-input input + label span::after {
+  content: attr(data-text);
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  transform: scaleX(1);
+  white-space: nowrap;
+  color: #fff;
+  background-image: linear-gradient(to right, #4A90E2 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: 100% 50%;
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  backface-visibility: hidden;
+  perspective: 1000;
+  transform: translateZ(0);
+  transition: background-position 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.ui-input input:focus + label::after,
+.ui-input input.error + label::after,
+.ui-input input:invalid + label::after,
+.ui-input input.filled + label::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.ui-input input:focus + label span::after,
+.ui-input input.error + label span::after,
+.ui-input input:invalid + label span::after,
+.ui-input input.filled + label span::after {
+  background-image: linear-gradient(to right, white 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: 0% 50%;
+}
+
+.ui-input input.filled {
+  color: #ffffff;
+}
+.ui-input input.filled + label::after {
+  background-color: #ffffff;
+}
+.ui-input input.filled + label span::after {
+  background-image: linear-gradient(to right, #ffffff 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: 0% 50%;
+}
+
+.ui-input input:focus {
+  color: #6EB1FF;
+}
+.ui-input input:focus + label::after {
+  background-color: #6EB1FF;
+}
+.ui-input input:focus + label span::after {
+  background-image: linear-gradient(to right, #6EB1FF 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: 0% 50%;
+}
+
+.ui-input input.error,
+.ui-input input:invalid {
+  color: #E66161;
+}
+.ui-input input.error + label::after,
+.ui-input input:invalid + label::after {
+  background-color: #E66161;
+}
+.ui-input input.error + label span::after,
+.ui-input input:invalid + label span::after {
+  background-image: linear-gradient(to right, #E66161 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: 0% 50%;
+}
+
+.btn {
+  border: 0;
+  background-color: #50617A;
+  padding: 18px 30px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: .0875em;
+  font-weight: 500;
+  color: #ffffff;
+  font-family: "Avenir Next", "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border-radius: 100px;
+  outline: 0;
+  transition: background-color 300ms cubic-bezier(0.215, 0.61, 0.355, 1), color 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.btn:focus, .btn:active,
+.btn:hover {
+  background-color: #6EB1FF;
+  color: white;
+}
+
+.__first, .__second, .__third, .__fourth {
+  animation-name: fadeIn;
+  animation-duration: 180ms;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+}
+
+.__first {
+  animation-delay: 0;
+}
+
+.__second {
+  animation-delay: 80ms;
+}
+
+.__third {
+  animation-delay: 180ms;
+}
+
+.__fourth {
+  animation-delay: 360ms;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -25%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+</style>
+<script>
+    $(function() {
+        var availableTutorials = [
+            'State Unassigned',
+            'Andaman and Nicobar Islands',
+            'Andhra Pradesh',
+            'Arunachal Pradesh',
+            'Assam',
+            'Bihar',
+            'Chandigarh',
+            'Chhattisgarh',
+            'Delhi',
+            'Dadra and Nagar Haveli and Daman and Diu',
+            'Goa',
+            'Gujarat',
+            'Himachal Pradesh',
+            'Haryana',
+            'Jharkhand',
+            'Jammu and Kashmir',
+            'Karnataka',
+            'Kerala',
+            'Ladakh',
+            'Lakshadweep',
+            'Maharashtra',
+            'Meghalaya',
+            'Manipur',
+            'Madhya Pradesh',
+            'Mizoram',
+            'Nagaland',
+            'Odisha',
+            'Punjab',
+            'Puducherry',
+            'Rajasthan',
+            'Sikkim',
+            'Telangana',
+            'Tamil Nadu',
+            'Tripura',
+            'Uttar Pradesh',
+            'Uttarakhand',
+            'West Bengal'
+        ];
+        $("#state").autocomplete({
+            source: availableTutorials,
+            autoFocus: true
+        });
+        $("#dist").autocomplete({
+            source: ['Unassigned',
+
+'Nicobars',
+'North and Middle Andaman',
+'South Andaman',
+'Unknown',
+
+'Foreign Evacuees', 'Anantapur',
+'Chittoor', 'East Godavari',
+'Guntur', 'Krishna',
+'Kurnool', 'Other State',
+'Prakasam', 'S.P.S. Nellore',
+'Srikakulam', 'Visakhapatnam',
+'Vizianagaram', 'West Godavari',
+'Y.S.R. Kadapa',
+
+'Anjaw', 'Changlang',
+'East Kameng', 'East Siang',
+'Kamle', 'Kra Daadi',
+'Kurung Kumey', 'Lepa Rada',
+'Lohit', 'Longding',
+'Lower Dibang Valley', 'Lower Siang',
+'Lower Subansiri', 'Namsai',
+'Pakke Kessang', 'Papum Pare',
+'Shi Yomi', 'Siang',
+'Tawang', 'Tirap',
+'Upper Dibang Valley', 'Upper Siang',
+'Upper Subansiri', 'West Kameng',
+'West Siang',
+
+'Airport Quarantine',
+'Baksa',
+'Barpeta',
+'Biswanath',
+'Bongaigaon',
+'Cachar',
+'Charaideo',
+'Chirang',
+'Darrang',
+'Dhemaji',
+'Dhubri',
+'Dibrugarh',
+'Dima Hasao',
+'Goalpara',
+'Golaghat',
+'Hailakandi',
+'Hojai',
+'Jorhat',
+'Kamrup',
+'Kamrup Metropolitan',
+'Karbi Anglong',
+'Karimganj',
+'Kokrajhar',
+'Lakhimpur',
+'Majuli',
+'Morigaon',
+'Nagaon',
+'Nalbari',
+'Other State',
+'Sivasagar',
+'Sonitpur',
+'South Salmara Mankachar',
+'Tinsukia',
+'Udalguri',
+'West Karbi Anglong',
+'Unknown',
+
+'Araria', 'Arwal', 'Aurangabad',
+'Banka', 'Begusarai', 'Bhagalpur',
+'Bhojpur', 'Buxar', 'Darbhanga',
+'East Champaran', 'Gaya', 'Gopalganj',
+'Jamui', 'Jehanabad', 'Kaimur',
+'Katihar', 'Khagaria', 'Kishanganj',
+'Lakhisarai', 'Madhepura', 'Madhubani',
+'Munger', 'Muzaffarpur', 'Nalanda',
+'Nawada', 'Patna', 'Purnia',
+'Rohtas', 'Saharsa', 'Samastipur',
+'Saran', 'Sheikhpura', 'Sheohar',
+'Sitamarhi', 'Siwan', 'Supaul',
+'Vaishali', 'West Champaran',
+'Chandigarh',
+
+'Other State',
+'Balod',
+'Baloda Bazar',
+'Balrampur',
+'Bametara',
+'Bastar',
+'Bijapur',
+'Bilaspur',
+'Dakshin Bastar Dantewada',
+'Dhamtari',
+'Durg',
+'Gariaband',
+'Janjgir Champa',
+'Jashpur',
+'Kabeerdham',
+'Kondagaon',
+'Korba',
+'Koriya',
+'Mahasamund',
+'Mungeli',
+'Narayanpur',
+'Raigarh',
+'Raipur',
+'Rajnandgaon',
+'Sukma',
+'Surajpur',
+'Surguja',
+'Uttar Bastar Kanker',
+'Gaurela Pendra Marwahi',
+
+'Central Delhi',
+'East Delhi',
+'New Delhi',
+'North Delhi',
+'North East Delhi',
+'North West Delhi',
+'Shahdara',
+'South Delhi',
+'South East Delhi',
+'South West Delhi',
+'West Delhi',
+'Unknown',
+'Other State', 'Dadra and Nagar Haveli', 'Daman', 'Diu',
+'Other State', 'North Goa', 'South Goa', 'Unknown',
+
+'Other State', 'Ahmedabad', 'Amreli',
+'Anand', 'Aravalli', 'Banaskantha',
+'Bharuch', 'Bhavnagar', 'Botad',
+'Chhota Udaipur', 'Dahod', 'Dang',
+'Devbhumi Dwarka', 'Gandhinagar', 'Gir Somnath',
+'Jamnagar', 'Junagadh', 'Kheda',
+'Kutch', 'Mahisagar', 'Mehsana',
+'Morbi', 'Narmada', 'Navsari',
+'Panchmahal', 'Patan', 'Porbandar',
+'Rajkot', 'Sabarkantha', 'Surat',
+'Surendranagar', 'Tapi', 'Vadodara',
+'Valsad',
+
+'Bilaspur',
+'Chamba',
+'Hamirpur',
+'Kangra',
+'Kinnaur',
+'Kullu',
+'Lahaul and Spiti',
+'Mandi',
+'Shimla',
+'Sirmaur',
+'Solan',
+'Una',
+
+'Foreign Evacuees', 'Ambala',
+'Bhiwani', 'Charkhi Dadri',
+'Faridabad', 'Fatehabad',
+'Gurugram', 'Hisar',
+'Italians', 'Jhajjar',
+'Jind', 'Kaithal',
+'Karnal', 'Kurukshetra',
+'Mahendragarh', 'Nuh',
+'Palwal', 'Panchkula',
+'Panipat', 'Rewari',
+'Rohtak', 'Sirsa',
+'Sonipat', 'Yamunanagar',
+
+'Bokaro', 'Chatra',
+'Deoghar', 'Dhanbad',
+'Dumka', 'East Singhbhum',
+'Garhwa', 'Giridih',
+'Godda', 'Gumla',
+'Hazaribagh', 'Jamtara',
+'Khunti', 'Koderma',
+'Latehar', 'Lohardaga',
+'Pakur', 'Palamu',
+'Ramgarh', 'Ranchi',
+'Sahibganj', 'Saraikela-Kharsawan',
+'Simdega', 'West Singhbhum',
+
+'Anantnag', 'Bandipora',
+'Baramulla', 'Budgam',
+'Doda', 'Ganderbal',
+'Jammu', 'Kathua',
+'Kishtwar', 'Kulgam',
+'Kupwara', 'Mirpur',
+'Muzaffarabad', 'Pulwama',
+'Punch', 'Rajouri',
+'Ramban', 'Reasi',
+'Samba', 'Shopiyan',
+'Srinagar', 'Udhampur',
+
+'Bagalkote', 'Ballari',
+'Belagavi', 'Bengaluru Rural',
+'Bengaluru Urban', 'Bidar',
+'Chamarajanagara', 'Chikkaballapura',
+'Chikkamagaluru', 'Chitradurga',
+'Dakshina Kannada', 'Davanagere',
+'Dharwad', 'Gadag',
+'Hassan', 'Haveri',
+'Kalaburagi', 'Kodagu',
+'Kolar', 'Koppal',
+'Mandya', 'Mysuru',
+'Other State', 'Raichur',
+'Ramanagara', 'Shivamogga',
+'Tumakuru', 'Udupi',
+'Uttara Kannada', 'Vijayapura',
+'Yadgir',
+
+'Other State', 'Alappuzha',
+'Ernakulam', 'Idukki',
+'Kannur', 'Kasaragod',
+'Kollam', 'Kottayam',
+'Kozhikode', 'Malappuram',
+'Palakkad', 'Pathanamthitta',
+'Thiruvananthapuram', 'Thrissur',
+'Wayanad',
+'Kargil', 'Leh',
+'Lakshadweep',
+
+'Ahmednagar', 'Akola', 'Amravati',
+'Aurangabad', 'Beed', 'Bhandara',
+'Buldhana', 'Chandrapur', 'Dhule',
+'Gadchiroli', 'Gondia', 'Hingoli',
+'Jalgaon', 'Jalna', 'Kolhapur',
+'Latur', 'Mumbai', 'Mumbai Suburban',
+'Nagpur', 'Nanded', 'Nandurbar',
+'Nashik', 'Osmanabad', 'Other State',
+'Palghar', 'Parbhani', 'Pune',
+'Raigad', 'Ratnagiri', 'Sangli',
+'Satara', 'Sindhudurg', 'Solapur',
+'Thane', 'Wardha', 'Washim',
+'Yavatmal',
+
+'East Garo Hills',
+'East Jaintia Hills',
+'East Khasi Hills',
+'North Garo Hills',
+'Ribhoi',
+'South Garo Hills',
+'South West Garo Hills',
+'South West Khasi Hills',
+'West Garo Hills',
+'West Jaintia Hills',
+'West Khasi Hills',
+
+'CAPF Personnel', 'Bishnupur',
+'Chandel', 'Churachandpur',
+'Imphal East', 'Imphal West',
+'Jiribam', 'Kakching',
+'Kamjong', 'Kangpokpi',
+'Noney', 'Pherzawl',
+'Senapati', 'Tamenglong',
+'Tengnoupal', 'Thoubal',
+'Ukhrul', 'Unknown',
+
+'Agar Malwa', 'Alirajpur', 'Anuppur', 'Ashoknagar',
+'Balaghat', 'Barwani', 'Betul', 'Bhind',
+'Bhopal', 'Burhanpur', 'Chhatarpur', 'Chhindwara',
+'Damoh', 'Datia', 'Dewas', 'Dhar',
+'Dindori', 'Guna', 'Gwalior', 'Harda',
+'Hoshangabad', 'Indore', 'Jabalpur', 'Jhabua',
+'Katni', 'Khandwa', 'Khargone', 'Mandla',
+'Mandsaur', 'Morena', 'Narsinghpur', 'Neemuch',
+'Niwari', 'Other Region', 'Panna', 'Raisen',
+'Rajgarh', 'Ratlam', 'Rewa', 'Sagar',
+'Satna', 'Sehore', 'Seoni', 'Shahdol',
+'Shajapur', 'Sheopur', 'Shivpuri', 'Sidhi',
+'Singrauli', 'Tikamgarh', 'Ujjain', 'Umaria',
+'Vidisha',
+
+'Aizawl', 'Champhai',
+'Hnahthial', 'Khawzawl',
+'Kolasib', 'Lawngtlai',
+'Lunglei', 'Mamit',
+'Saiha', 'Saitual',
+'Serchhip',
+
+'Others', 'Dimapur',
+'Kiphire', 'Kohima',
+'Longleng', 'Mokokchung',
+'Mon', 'Peren',
+'Phek', 'Tuensang',
+'Wokha', 'Zunheboto',
+
+'Others', 'Angul', 'Balangir',
+'Balasore', 'Bargarh', 'Bhadrak',
+'Boudh', 'Cuttack', 'Deogarh',
+'Dhenkanal', 'Gajapati', 'Ganjam',
+'Jagatsinghpur', 'Jajpur', 'Jharsuguda',
+'Kalahandi', 'Kandhamal', 'Kendrapara',
+'Kendujhar', 'Khordha', 'Koraput',
+'Malkangiri', 'Mayurbhanj', 'Nabarangapur',
+'Nayagarh', 'Nuapada', 'Puri',
+'Rayagada', 'Sambalpur', 'Subarnapur',
+'Sundargarh',
+
+'Amritsar',
+'Barnala',
+'Bathinda',
+'Faridkot',
+'Fatehgarh Sahib',
+'Fazilka',
+'Ferozepur',
+'Gurdaspur',
+'Hoshiarpur',
+'Jalandhar',
+'Kapurthala',
+'Ludhiana',
+'Mansa',
+'Moga',
+'Pathankot',
+'Patiala',
+'Rupnagar',
+'S.A.S. Nagar',
+'Sangrur',
+'Shahid Bhagat Singh Nagar',
+'Sri Muktsar Sahib',
+'Tarn Taran',
+'Karaikal', 'Mahe', 'Puducherry', 'Yanam',
+
+'Ajmer', 'Alwar', 'Banswara',
+'Baran', 'Barmer', 'Bharatpur',
+'Bhilwara', 'Bikaner', 'BSF Camp',
+'Bundi', 'Chittorgarh', 'Churu',
+'Dausa', 'Dholpur', 'Dungarpur',
+'Evacuees', 'Ganganagar', 'Hanumangarh',
+'Italians', 'Jaipur', 'Jaisalmer',
+'Jalore', 'Jhalawar', 'Jhunjhunu',
+'Jodhpur', 'Karauli', 'Kota',
+'Nagaur', 'Other State', 'Pali',
+'Pratapgarh', 'Rajsamand', 'Sawai Madhopur',
+'Sikar', 'Sirohi', 'Tonk',
+'Udaipur',
+'East Sikkim', 'North Sikkim', 'South Sikkim', 'West Sikkim',
+
+'Foreign Evacuees',
+'Other State',
+'Adilabad',
+'Bhadradri Kothagudem',
+'Hyderabad',
+'Jagtial',
+'Jangaon',
+'Jayashankar Bhupalapally',
+'Jogulamba Gadwal',
+'Kamareddy',
+'Karimnagar',
+'Khammam',
+'Komaram Bheem',
+'Mahabubabad',
+'Mahabubnagar',
+'Mancherial',
+'Medak',
+'Medchal Malkajgiri',
+'Mulugu',
+'Nagarkurnool',
+'Nalgonda',
+'Narayanpet',
+'Nirmal',
+'Nizamabad',
+'Peddapalli',
+'Rajanna Sircilla',
+'Ranga Reddy',
+'Sangareddy',
+'Siddipet',
+'Suryapet',
+'Vikarabad',
+'Wanaparthy',
+'Warangal Rural',
+'Warangal Urban',
+'Yadadri Bhuvanagiri',
+'Unknown',
+
+'Railway Quarantine', 'Airport Quarantine',
+'Other State', 'Ariyalur',
+'Chengalpattu', 'Chennai',
+'Coimbatore', 'Cuddalore',
+'Dharmapuri', 'Dindigul',
+'Erode', 'Kallakurichi',
+'Kancheepuram', 'Kanyakumari',
+'Karur', 'Krishnagiri',
+'Madurai', 'Nagapattinam',
+'Namakkal', 'Nilgiris',
+'Perambalur', 'Pudukkottai',
+'Ramanathapuram', 'Ranipet',
+'Salem', 'Sivaganga',
+'Tenkasi', 'Thanjavur',
+'Theni', 'Thiruvallur',
+'Thiruvarur', 'Thoothukkudi',
+'Tiruchirappalli', 'Tirunelveli',
+'Tirupathur', 'Tiruppur',
+'Tiruvannamalai', 'Vellore',
+'Viluppuram', 'Virudhunagar',
+
+'Dhalai',
+'Gomati',
+'Khowai',
+'North Tripura',
+'Sipahijala',
+'South Tripura',
+'Unokoti',
+'West Tripura',
+
+'Agra', 'Aligarh', 'Ambedkar Nagar',
+'Amethi', 'Amroha', 'Auraiya',
+'Ayodhya', 'Azamgarh', 'Baghpat',
+'Bahraich', 'Ballia', 'Balrampur',
+'Banda', 'Barabanki', 'Bareilly',
+'Basti', 'Bhadohi', 'Bijnor',
+'Budaun', 'Bulandshahr', 'Chandauli',
+'Chitrakoot', 'Deoria', 'Etah',
+'Etawah', 'Farrukhabad', 'Fatehpur',
+'Firozabad', 'Gautam Buddha Nagar', 'Ghaziabad',
+'Ghazipur', 'Gonda', 'Gorakhpur',
+'Hamirpur', 'Hapur', 'Hardoi',
+'Hathras', 'Jalaun', 'Jaunpur',
+'Jhansi', 'Kannauj', 'Kanpur Dehat',
+'Kanpur Nagar', 'Kasganj', 'Kaushambi',
+'Kushinagar', 'Lakhimpur Kheri', 'Lalitpur',
+'Lucknow', 'Maharajganj', 'Mahoba',
+'Mainpuri', 'Mathura', 'Mau',
+'Meerut', 'Mirzapur', 'Moradabad',
+'Muzaffarnagar', 'Pilibhit', 'Pratapgarh',
+'Prayagraj', 'Rae Bareli', 'Rampur',
+'Saharanpur', 'Sambhal', 'Sant Kabir Nagar',
+'Shahjahanpur', 'Shamli', 'Shrawasti',
+'Siddharthnagar', 'Sitapur', 'Sonbhadra',
+'Sultanpur', 'Unnao', 'Varanasi',
+
+'Almora',
+'Bageshwar',
+'Chamoli',
+'Champawat',
+'Dehradun',
+'Haridwar',
+'Nainital',
+'Pauri Garhwal',
+'Pithoragarh',
+'Rudraprayag',
+'Tehri Garhwal',
+'Udham Singh Nagar',
+'Uttarkashi',
+
+'Alipurduar', 'Bankura',
+'Birbhum', 'Cooch Behar',
+'Dakshin Dinajpur', 'Darjeeling',
+'Hooghly', 'Howrah',
+'Jalpaiguri', 'Jhargram',
+'Kalimpong', 'Kolkata',
+'Malda', 'Murshidabad',
+'Nadia', 'North 24 Parganas',
+'Other State', 'Paschim Bardhaman',
+'Paschim Medinipur', 'Purba Bardhaman',
+'Purba Medinipur', 'Purulia',
+'South 24 Parganas', 'Uttar Dinajpur'
+],
+            autoFocus: true
+        });
+
+    });
+</script>
+
+</html>

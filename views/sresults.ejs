@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESULTS</title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<body>
+    <div id="kex">
+        <h1><b> THE STATUS OF
+            <%=city%> AT <small>
+                <%=date%></small> ARE:</b></h1>
+
+    </div>
+    </div>
+    <div id="pex">
+        <h1><b>THE CURRENT STATUS BECOMES</b></h1>
+        <h1 id="total case">TOTAL CASES===
+            <%=total%>
+        </h1>
+        <h1 id="active case">ACTIVE CASES===>
+            <%=active%>
+        </h1>
+        <h1 id="recovered case">RECOVERED CASES===>
+            <%=recovered%>
+        </h1>
+        <h1 id="death case">TOTAL DEATHS===>
+            <%=deaths%>
+        </h1>
+
+    </div>
+</body>
+<style>
+    #pex {
+        border: 10px solid orange;
+        background-color: papayawhip;
+        color: green;
+        text-align: center;
+        width: 100%;
+        border-width: 80px, 40px, 40px, 40px;
+        font-family: 'Lucida Sans',
+    }
+    
+    #kex {
+        color: blue;
+        font-weight: 700;
+        text-align: center,
+    }
+    
+    body {
+        background-image: url("https://img.etimg.com/thumb/width-1200,height-900,imgsize-920116,resizemode-1,msid-66950888/magazines/travel/wish-to-enjoy-a-spectacular-sunrise-sunset-well-tell-you-where-to-go.jpg");
+    }
+</style>
+
+</html>
